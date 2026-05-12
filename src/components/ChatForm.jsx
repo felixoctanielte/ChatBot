@@ -1,38 +1,51 @@
-import React, { useRef } from "react";
+import { useState } from "react";
 
-const ChatForm = ({chatHistory, setChatHistory, generateBotResponse}) => {
-    const inputRef = useRef();
+const ChatForm = ({ isLoading, onSubmit }) => {
+  const [message, setMessage] = useState("");
+  const canSubmit = message.trim().length > 0 && !isLoading;
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault(); // perbaikan di sini
-        const userMessage = inputRef.current.value.trim();
-        if (!userMessage) return;
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
 
-        inputRef.current.value = "";
-        //Update chat history with the  user's message
-        setChatHistory((history) => [...history, { role: "user", text: userMessage }]);
-        //Add a "Thinking..."  placeholder for the  bot's response
-        setTimeout(() =>  setChatHistory((history) => [...history, { role: "model", text: "Thinking..." }]), 600);
-        //call the function to generate the bot's response with connect companyinfo
-      //  generateBotResponse([...chatHistory,{ role: "user", text: `Using  the details  provided above, please address this query:  ${userMessage}` }]);
-        generateBotResponse([...chatHistory,{ role: "user", text: userMessage }]);
-    };
+    if (!canSubmit) {
+      return;
+    }
 
-    return (
-        <form action="#" className="chat-form" onSubmit={handleFormSubmit}>
-            <input
-                ref={inputRef}
-                type="text"
-                placeholder="Message... "
-                className="message-input"
-                minLength={1}
-                required
-            />
-            <button type="submit" className="material-symbols-rounded">
-                arrow_upward
-            </button>
-        </form>
-    );
+    onSubmit(message);
+    setMessage("");
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleFormSubmit(event);
+    }
+  };
+
+  return (
+    <form className="chat-form" onSubmit={handleFormSubmit}>
+      <textarea
+        aria-label="Ask the personal AI agent"
+        className="message-input"
+        disabled={isLoading}
+        maxLength={1200}
+        onChange={(event) => setMessage(event.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Ask the agent to plan, summarize, draft, or remember..."
+        rows={1}
+        value={message}
+      />
+      <button
+        aria-label="Send message"
+        className="material-symbols-rounded"
+        disabled={!canSubmit}
+        title="Send message"
+        type="submit"
+      >
+        arrow_upward
+      </button>
+    </form>
+  );
 };
 
 export default ChatForm;

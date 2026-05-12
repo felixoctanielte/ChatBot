@@ -28,7 +28,21 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-      "react/prop-types" : "off",
+    },
+  },
+  {
+    files: ['api/**/*.js', 'vite.config.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
+    files: ['src/data/**/*.js'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
 ]

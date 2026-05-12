@@ -1,12 +1,57 @@
-# React + Vite
+# Personal AI Agent Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A private AI workspace for planning projects, saving chat history, keeping local memory, and preparing stronger AI agent demos for future competitions.
 
-Currently, two official plugins are available:
+## Highlights
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Dashboard layout with saved chats, quick actions, workspace metrics, and local memory.
+- Persistent chat sessions stored in browser `localStorage`.
+- Saved memory notes are sent with each `/api/chat` request.
+- Gemini calls go through `api/chat.js`, so the API key is not exposed in browser code.
+- The same app can be polished into a competition demo by editing `src/data/agentProfile.js`.
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Install dependencies:
+
+```bash
+npm.cmd install
+```
+
+Create `.env` from the example:
+
+```bash
+copy .env.example .env
+```
+
+Set your private key:
+
+```env
+GEMINI_API_KEY=your-google-ai-studio-key
+GEMINI_MODEL=gemini-3.1-flash-lite
+```
+
+For Vercel, add `GEMINI_API_KEY` and `GEMINI_MODEL` in Project Settings -> Environment Variables.
+
+## Local Development
+
+```bash
+npm.cmd run dev
+```
+
+Vite runs a local `/api/chat` middleware that uses the same handler as the Vercel function.
+
+## What To Customize
+
+- Edit `src/data/agentProfile.js` with your real background, goals, tools, and project notes.
+- Use the dashboard memory box for temporary local context.
+- Use saved chat sessions to keep project planning, competition prep, and drafts separated.
+
+## Verification
+
+```bash
+npm.cmd run lint
+npm.cmd run build
+```
+
+Keep `.env` private. Never commit real API keys in `.env.example`, README files, screenshots, or chat messages.

@@ -5,7 +5,7 @@ const MAX_TOTAL_CHARS = 7000;
 const MAX_MESSAGE_CHARS = 1400;
 const MAX_MEMORY_CHARS = 1600;
 const MODEL_REQUEST_TIMEOUT_MS = 25000;
-const DEFAULT_GEMINI_MODEL = "gemini-1.5-flash-lite";
+const DEFAULT_GEMINI_MODEL = "gemini-1.5-flash";
 
 const sendJson = (response, statusCode, payload) => {
   response.status(statusCode).json(payload);
